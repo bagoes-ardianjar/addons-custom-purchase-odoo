@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="wizard_form_import_autodidak_pembelian_id" model="ir.ui.view">
+        <field name="name">wizard_form_import_autodidak_pembelian_id</field>
+        <field name="model">base_import.import</field>
+        <field name="arch" type="xml">
+            <form string="Import Autodidak Pembelian">
+                <div style="padding-left;5px;">
+                    <field name="file_import" required="1" filename="file_name_import"/>
+                    <field name="file_name_import" invisible="1"/>
+                    Or <a href="../autodidak_pembelian/static/template/autodidak_pembelian_template.xlsx" target="_new">Download Template</a>
+                    <footer>
+                        <button string="Import" name="actions_import_autodidak_pembelian" type="object" class="oe_highlight"/>
+                        <button string="Cancel" special="cancel" class="oe_link"/>
+                    </footer>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="autodidak_pembelian_report_wizard_view_id" model="ir.ui.view">
+        <field name="name">autodidak_pembelian_report_wizard_view_id</field>
+        <field name="model">autodidak.pembelian.report.wizard</field>
+        <field name="priority">999</field>
+        <field name="arch" type="xml">
+            <form string="Reporting Autodidak Pembelian">
+                <sheet>
+                    <group col="4">
+                        <field name="periode_awal" string="Periode Awal"/>
+                        <field name="periode_akhir" string="Periode Akhir"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button type="object" name="" string="Submit" class="btn-primary"/>
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="autodidak_pembelian_search_view_id" model="ir.ui.view">
+        <field name="name">autodidak_pembelian_search_view_id</field>
+        <field name="model">autodidak.pembelian</field>
+        <field name="arch" type="xml">
+                <search>
+                    <field name="name" string="Nama" filter_domain="[('name', 'ilike', self)]"/>
+                    <field name="autodidak_pembelian_ids" string="Product" filter_domain="[('autodidak_pembelian_ids.product_id.name', 'ilike', self)]"/>
+                    <field string="Draft" name="status" filter_domain="[('status', '=', 'draft')]"/>
+                    <field string="To Approve" name="status" filter_domain="[('status', '=', 'to_approve')]"/>
+                    <field string="Approved" name="status" filter_domain="[('status', '=', 'approved')]"/>
+                    <field string="Done" name="status" filter_domain="[('status', '=', 'done')]"/>
+
+                    <group string="Group By">
+                        <filter string="Status" name="status" domain="[]" context="{'group_by':'status'}"/>
+                    </group>
+                </search>
+        </field>
+    </record>
+    <record id="autodidak_pembelian_tree_view_id" model="ir.ui.view">
+        <field name="name">autodidak_pembelian.autodidak_pembelian_tree_view_id</field>
+        <field name="model">autodidak.pembelian</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="tanggal"/>
+                <field name="status"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="autodidak_pembelian_form_view_id" model="ir.ui.view">
+        <field name="name">autodidak_pembelian.autodidak_pembelian_form_view_id</field>
+        <field name="model">autodidak.pembelian</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button type="object" name="func_to_approve" string="To Approve" attrs="{'invisible' : [('status', '!=', 'draft')]}" class="oe_highlight"/>
+                    <button type="object" name="func_approved" string="Approved" attrs="{'invisible' : [('status', '!=', 'to_approve')]}" class="oe_highlight"/>
+                    <button type="object" name="func_done" string="Set to Done" attrs="{'invisible' : [('status', '!=', 'approved')]}" class="oe_highlight"/>
+                    <button type="object" name="get_excel_report" string="Print Excel"/>
+                    <field name="status" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" attrs="{'readonly' : [('status', '!=', 'draft')]}"/>
+                            <field name="brand_ids" widget="many2many_tags" attrs="{'required' : [('status', '=', 'draft')]}"/>
+                        </group>
+                        <group>
+                            <field name="tanggal"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Product">
+                            <field name="autodidak_pembelian_ids" nolabel="1" options="{'reload_on_botton':True}">
+                                <tree edit="true" editable="bottom" create="true" delete="true">
+                                    <field name="product_id"/>
+                                    <field name="description"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id"/>
+                                    <field name="price"/>
+                                    <field name="sub_total"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="autodidak_pembelian_kanban_view_id" model="ir.ui.view">
+        <field name="name">autodidak_pembelian.autodidak_pembelian_kanban_view_id</field>
+        <field name="model">autodidak.pembelian</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="name"/>
+                <field name="tanggal"/>
+                <field name="status"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div class="o_kanban_record_top mb16">
+                                <strong><span><t t-esc="record.name.value"/></span></strong>
+                            </div>
+                            <div class="o_kanban_record_bottom">
+                                <div class="o_kanban_record_bottom_left">
+                                    <span><t t-esc="record.tanggal.value"/></span>
+                                </div>
+                                <div class="o_kanban_record_bottom_right">
+                                    <span><t t-esc="record.status.value"/></span>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="autodidak_brand_tree_view_id" model="ir.ui.view">
+        <field name="name">autodidak_brand_tree_view_id</field>
+        <field name="model">autodidak.brand</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="new_inherit_product_template_id" model="ir.ui.view">
+        <field name="name">new_inherit_product_template_id</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/header" position="inside">
+<!--                <button type="object" name="func_approved" string="Approved" class="oe_highlight"/>-->
+                <field name="status" widget="statusbar"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="new_inherit_stock_product_template_id"  model="ir.ui.view">
+        <field name="name">new_inherit_stock_product_template_id</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="stock.product_template_form_view_procurement_button"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/header/button[@name='action_update_quantity_on_hand']" position="before">
+                <button type="object" name="func_approved" string="Approved" class="oe_highlight"/>
+                <button type="object" name="print_qrcode" string="Print QR Code" class="oe_highlight"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

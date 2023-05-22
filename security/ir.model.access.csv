@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_autodidak_pembelian,access_autodidak_pembelian,model_autodidak_pembelian,,1,1,1,1
+access_autodidak_pembelian_line,access_autodidak_pembelian_line,model_autodidak_pembelian_line,,1,1,1,1
+access_autodidak_brand,access_autodidak_brand,model_autodidak_brand,,1,1,1,1
+access_autodidak_pembelian_report_wizard,access_autodidak_pembelian_report_wizard,model_autodidak_pembelian_report_wizard,,1,1,1,1

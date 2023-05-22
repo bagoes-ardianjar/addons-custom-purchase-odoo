@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <menuitem
+        id="parent_autodidak_pembelian_id"
+        name="Pembelian"
+        sequence="5"/>
+        <menuitem
+            id="child_autodidak_pembelian_id"
+            name="Pembelian"
+            sequence="1"
+            parent="autodidak_pembelian.parent_autodidak_pembelian_id"/>
+            <menuitem
+                id="child_autodidak_pembelian_a_id"
+                name="Pembelian A"
+                sequence="11"
+                parent="autodidak_pembelian.child_autodidak_pembelian_id"
+                action="autodidak_pembelian.pembelian_actions_id"/>
+            <menuitem
+                id="child_autodidak_pembelian_b_id"
+                name="Pembelian B"
+                sequence="12"
+                parent="autodidak_pembelian.child_autodidak_pembelian_id"
+                action="autodidak_pembelian.actions_server_autodidak_pembelian_testing_id"/>
+        <menuitem
+            id="child_autodidak_brand_id"
+            name="Brand"
+            sequence="2"
+            parent="autodidak_pembelian.parent_autodidak_pembelian_id"
+            action="autodidak_pembelian.brand_actions_id"/>
+        <menuitem
+            id="child_autodidak_pembelian_report_wizard"
+            name="Report"
+            sequence="3"
+            parent="autodidak_pembelian.parent_autodidak_pembelian_id"
+            action="autodidak_pembelian.actions_autodidak_pembelian_report_wizard_id"/>
+        <menuitem
+            id="child__import_autodidak_pembelian_wizard_id"
+            name="Import"
+            sequence="4"
+            parent="autodidak_pembelian.parent_autodidak_pembelian_id"
+            action="autodidak_pembelian.actions_wiz_import_autodidak_pembelian"/>
+</odoo>
